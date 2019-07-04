@@ -31,13 +31,9 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="238dp"
+        android:layout_width="0dp"
         android:layout_height="156dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
         android:layout_marginTop="76dp"
-        android:layout_marginEnd="84dp"
-        android:layout_marginRight="84dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.962"
         app:layout_constraintStart_toStartOf="parent"
