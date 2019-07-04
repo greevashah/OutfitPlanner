@@ -73,7 +73,7 @@ public class CameraActivity extends AppCompatActivity implements CameraBridgeVie
     @Override
     protected void onResume() {
         super.onResume();
-        if(OpenCVLoader.initDebug()){
+        if(!OpenCVLoader.initDebug()){
             Toast.makeText(getApplicationContext(),"There is a problem in OpenCV",Toast.LENGTH_SHORT).show();
         }
         else{
