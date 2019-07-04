@@ -31,7 +31,7 @@
         app:layout_constraintTop_toBottomOf="@+id/topImageViewT" />
 
     <Button
-        android:id="@+id/toTopButtonT"
+        android:id="@+id/toBottomButtonT"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
@@ -43,14 +43,14 @@
         app:layout_constraintTop_toBottomOf="@+id/clickTopButtonT" />
 
     <Button
-        android:id="@+id/toResultButtonT"
+        android:id="@+id/toMainButtonT"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:contentDescription="Click to go back to home page"
-        android:onClick="goBack"
+        android:onClick="goToMain"
         android:text="GO BACK TO HOME PAGE"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toTopButtonT" />
+        app:layout_constraintTop_toBottomOf="@+id/toBottomButtonT" />
 </android.support.constraint.ConstraintLayout>
