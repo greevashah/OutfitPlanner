@@ -25,25 +25,25 @@
         android:layout_marginTop="50dp"
         android:contentDescription="Click picture of your top(shirt,dress,et cetra)"
         android:onClick="chooseTop"
-        android:text="CLICK TOP"
+        android:text="CLICK TOPWEAR"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/topImageViewT" />
 
     <Button
-        android:id="@+id/toBottomButtonT"
+        android:id="@+id/toTopButtonT"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:contentDescription="Click to go to next page"
         android:onClick="goToBottom"
-        android:text="GO TO BOTTOM PAGE"
+        android:text="GO TO BOTTOMWEAR PAGE"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/clickTopButtonT" />
 
     <Button
-        android:id="@+id/goBackButtonT"
+        android:id="@+id/toResultButtonT"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
@@ -52,5 +52,5 @@
         android:text="GO BACK TO HOME PAGE"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toBottomButtonT" />
+        app:layout_constraintTop_toBottomOf="@+id/toTopButtonT" />
 </android.support.constraint.ConstraintLayout>
