@@ -14,6 +14,8 @@ public class BottomActivity extends AppCompatActivity {
     }
 
     public void chooseBottom(View view){
+        Intent intent = new Intent(this,CameraActivity.class);
+        startActivity(intent);
         //start camera module
 
         //save the image

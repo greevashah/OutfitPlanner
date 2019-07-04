@@ -14,6 +14,8 @@ public class TopActivity extends AppCompatActivity {
     }
 
     public void chooseTop(View view){
+        Intent intent = new Intent(this, CameraActivity.class);
+        startActivity(intent);
         //start camera module
 
         //save the image
