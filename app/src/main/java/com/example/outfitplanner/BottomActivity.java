@@ -22,7 +22,7 @@ public class BottomActivity extends AppCompatActivity {
     }
 
     public void goToTop(View view){
-        Intent intent = new Intent(this, BottomActivity.class);
+        Intent intent = new Intent(this, TopActivity.class);
         startActivity(intent);
     }
 
