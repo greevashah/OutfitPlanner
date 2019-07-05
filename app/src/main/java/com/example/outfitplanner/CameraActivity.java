@@ -1,91 +1,73 @@
 package com.example.outfitplanner;
 
+import android.hardware.Camera;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.SurfaceView;
-import android.widget.Toast;
+import android.view.View;
+import android.widget.FrameLayout;
 
-import org.opencv.android.BaseLoaderCallback;
-import org.opencv.android.CameraBridgeViewBase;
-import org.opencv.android.JavaCamera2View;
-import org.opencv.android.JavaCameraView;
-import org.opencv.android.OpenCVLoader;
-import org.opencv.core.Core;
-import org.opencv.core.CvType;
-import org.opencv.core.Mat;
-import org.opencv.imgproc.Imgproc;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
-public class CameraActivity extends AppCompatActivity implements CameraBridgeViewBase.CvCameraViewListener2 {
 
-    CameraBridgeViewBase cameraBridgeViewBase;
-    Mat mat1, mat2, mat3;
-    BaseLoaderCallback baseLoaderCallback;
+public class CameraActivity extends AppCompatActivity {
+
+    Camera camera;
+    ShowCamera showCamera;
+    FrameLayout frameLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
-        cameraBridgeViewBase = (JavaCameraView) findViewById(R.id.myCameraView);
-        cameraBridgeViewBase.setVisibility(SurfaceView.VISIBLE);
-        cameraBridgeViewBase.setCvCameraViewListener(this);
-        baseLoaderCallback = new BaseLoaderCallback(this) {
-            @Override
-            public void onManagerConnected(int status) {
+        frameLayout = findViewById(R.id.frameLayout);
+        camera = Camera.open();
+        showCamera = new ShowCamera(this, camera);
+        frameLayout.addView(showCamera);
 
-                switch(status){
-                    case BaseLoaderCallback.SUCCESS:
-                        cameraBridgeViewBase.enableView();
-                        break;
-                    default:
-                        super.onManagerConnected(status);
-                        break;
+    }
+
+    Camera.PictureCallback mPictureCallback = new Camera.PictureCallback() {
+        @Override
+        public void onPictureTaken(byte[] data, Camera camera) {
+            File picture_file = getOutputMediaFile();
+            if(picture_file == null) {
+                return;
+            }
+            else {
+                try{
+                    FileOutputStream fos = new FileOutputStream((picture_file));
+                    fos.write(data);
+                    fos.close();
+
+                    camera.startPreview();
+                }catch (IOException e) {
+                    e.printStackTrace();
                 }
             }
-        };
-    }
+        }
+    };
 
-    @Override
-    public Mat onCameraFrame(CameraBridgeViewBase.CvCameraViewFrame inputFrame) {
-        mat1 = inputFrame.rgba();
-
-        return mat1;
-    }
-
-    @Override
-    public void onCameraViewStopped() {
-        mat1.release();
-    }
-
-    @Override
-    public void onCameraViewStarted(int width, int height) {
-        mat1 = new Mat(width, height, CvType.CV_8UC4);
-        mat2 = new Mat(width, height, CvType.CV_8UC4);
-        mat3 = new Mat(width, height, CvType.CV_8UC4);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        if(cameraBridgeViewBase!=null){
-            cameraBridgeViewBase.disableView();
+    private File getOutputMediaFile() {
+        String state = Environment.getExternalStorageState();
+        if(!state.equals(Environment.MEDIA_MOUNTED)){
+            return null;
+        }
+        else {
+            File folder_gui = new File(Environment.getExternalStorageDirectory()+File.separator+"OutfitPlanner");
+            if(!folder_gui.exists()) {
+                folder_gui.mkdir();
+            }
+        File outputFile = new File(folder_gui,"temp.jpg");
+            return outputFile;
         }
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if(!OpenCVLoader.initDebug()){
-            Toast.makeText(getApplicationContext(),"There is a problem in OpenCV",Toast.LENGTH_SHORT).show();
-        }
-        else{
-            baseLoaderCallback.onManagerConnected(BaseLoaderCallback.SUCCESS);
-        }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if(cameraBridgeViewBase!=null){
-            cameraBridgeViewBase.disableView();
+    public void captureImage(View view) {
+        if(camera!=null) {
+            camera.takePicture(null, null, mPictureCallback);
         }
     }
 }
