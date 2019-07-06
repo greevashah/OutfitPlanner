@@ -21,7 +21,6 @@ import java.io.IOException;
 public class CameraActivity extends AppCompatActivity {
     int f;
     Camera camera;
-    ShowCamera showCamera;
     FrameLayout frameLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,9 +30,6 @@ public class CameraActivity extends AppCompatActivity {
         f = intent.getIntExtra("flag",0);
         frameLayout = findViewById(R.id.frameLayout);
         camera = Camera.open();
-        showCamera = new ShowCamera(this, camera);
-        frameLayout.addView(showCamera);
-
     }
 
     Camera.PictureCallback mPictureCallback = new Camera.PictureCallback() {
