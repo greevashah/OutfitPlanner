@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 
 public class BottomActivity extends AppCompatActivity {
-
+    int f=2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -15,6 +15,7 @@ public class BottomActivity extends AppCompatActivity {
 
     public void chooseBottom(View view){
         Intent intent = new Intent(this,CameraActivity.class);
+        intent.putExtra("flag", f);
         startActivity(intent);
         //start camera module
 
