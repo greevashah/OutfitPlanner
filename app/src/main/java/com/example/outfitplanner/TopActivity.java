@@ -36,7 +36,6 @@ public class TopActivity extends AppCompatActivity {
     }
 
     public void chooseTop(View view){
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         Intent takePicture=new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if(takePicture.resolveActivity(getPackageManager())!=null){
             File photoFile=null;
@@ -79,7 +78,7 @@ public class TopActivity extends AppCompatActivity {
         if(resultCode==RESULT_OK) {
             if(imgFile.exists()) {
                 imageTop = BitmapFactory.decodeFile(currentPhotoPathTop);
-                ImageView iv = (ImageView) findViewById(R.id.topImageViewT);
+                ImageView iv = findViewById(R.id.topImageViewT);
                 iv.setImageBitmap(imageTop);
                 Mat mat = new Mat();
 //                Bitmap bmp32 = imageBottom.copy(Bitmap.Config.ARGB_8888, true);
@@ -87,6 +86,7 @@ public class TopActivity extends AppCompatActivity {
             }
         }
     }
+
 //    public void setTopImage(){
 //        Bitmap imageTop = BitmapFactory.decodeFile(currentPhotoPathTop);
 //        ImageView iv = (ImageView) findViewById(R.id.topImageViewT);
