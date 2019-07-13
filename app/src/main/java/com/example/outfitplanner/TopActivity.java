@@ -3,6 +3,7 @@ package com.example.outfitplanner;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -70,6 +71,7 @@ public class TopActivity extends AppCompatActivity {
     }
 
     Bitmap imageTop;
+    String topColor;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -82,7 +84,14 @@ public class TopActivity extends AppCompatActivity {
                 iv.setImageBitmap(imageTop);
                 Mat mat = new Mat();
 //                Bitmap bmp32 = imageBottom.copy(Bitmap.Config.ARGB_8888, true);
-                Utils.bitmapToMat(imageTop, mat);
+//                Utils.bitmapToMat(imageTop, mat);
+                int x = imageTop.getHeight()/2;
+                int y = imageTop.getWidth()/2;
+                int colour = imageTop.getPixel(x, y);
+                int red = Color.red(colour);
+                int blue = Color.blue(colour);
+                int green = Color.green(colour);
+                topColor = ColorUtils.getColorNameFromRgb(red, green, blue);
             }
         }
     }
@@ -95,6 +104,7 @@ public class TopActivity extends AppCompatActivity {
 
     public void goToBottom(View view){
         Intent intent = new Intent(this, BottomActivity.class);
+        intent.putExtra("topColor",topColor);
         startActivity(intent);
     }
 

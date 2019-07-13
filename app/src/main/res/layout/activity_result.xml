@@ -6,4 +6,45 @@
     android:layout_height="match_parent"
     tools:context=".ResultActivity">
 
+    <TextView
+        android:id="@+id/resultViewR"
+        android:layout_width="fill_parent"
+        android:layout_height="100dp"
+        android:layout_marginTop="8dp"
+        android:text="TextView"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="149dp"
+        tools:text="Result will be displayed here" />
+
+    <Button
+        android:id="@+id/toBottomButtonR"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="64dp"
+        android:onClick="goToBottom"
+        android:text="GO TO BOTTOMWEAR PAGE"
+        app:layout_constraintTop_toBottomOf="@+id/resultViewR"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <Button
+        android:id="@+id/toMainButtonR"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="30dp"
+        android:onClick="goToMain"
+        android:text="GO TO HOME PAGE"
+        app:layout_constraintTop_toBottomOf="@+id/toBottomButtonR"
+        tools:layout_editor_absoluteX="160dp" />
+
+    <Button
+        android:id="@+id/exitButtonR"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="30dp"
+        android:onClick="exitMain"
+        android:text="EXIT"
+        app:layout_constraintTop_toBottomOf="@+id/toMainButtonR"
+        tools:layout_editor_absoluteX="159dp" />
+
+
 </android.support.constraint.ConstraintLayout>

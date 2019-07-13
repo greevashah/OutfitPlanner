@@ -8,8 +8,8 @@
 
     <ImageView
         android:id="@+id/topImageViewT"
-        android:layout_width="407dp"
-        android:layout_height="258dp"
+        android:layout_width="400dp"
+        android:layout_height="250dp"
         android:contentDescription="Image of a T-shirt"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"

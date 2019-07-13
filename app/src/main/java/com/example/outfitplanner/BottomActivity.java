@@ -3,6 +3,7 @@ package com.example.outfitplanner;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.Region;
 import android.net.Uri;
 import android.os.Environment;
@@ -27,12 +28,14 @@ import java.util.Date;
 public class BottomActivity extends AppCompatActivity {
     private static final int REQUEST_TAKE_PHOTO = 1;
     private String currentPhotoPathBottom="";
-
+    String topColor, bottomColor;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         OpenCVLoader.initDebug();
         setContentView(R.layout.activity_bottom);
+        Intent intent = getIntent();
+        topColor = intent.getStringExtra("topColor");
     }
 
     public void chooseBottom(View view){
@@ -77,23 +80,36 @@ public class BottomActivity extends AppCompatActivity {
         File imgFile = new  File(currentPhotoPathBottom);
         if(resultCode==RESULT_OK) {
             if(imgFile.exists()) {
-                Bitmap imageBottom = BitmapFactory.decodeFile(currentPhotoPathBottom);
+                imageBottom = BitmapFactory.decodeFile(currentPhotoPathBottom);
                 ImageView iv = (ImageView) findViewById(R.id.bottomImageViewB);
                 iv.setImageBitmap(imageBottom);
                 Mat mat = new Mat();
 //                Bitmap bmp32 = imageBottom.copy(Bitmap.Config.ARGB_8888, true);
-                Utils.bitmapToMat(imageBottom, mat);
+//                Utils.bitmapToMat(imageBottom, mat);
+                int x = imageBottom.getHeight()/2;
+                int y = imageBottom.getWidth()/2;
+                int colour = imageBottom.getPixel(x, y);
+                int red = Color.red(colour);
+                int blue = Color.blue(colour);
+                int green = Color.green(colour);
+                bottomColor = ColorUtils.getColorNameFromRgb(red, green, blue);
+                Log.i("topColor",topColor);
+                Log.i("bottomColor",bottomColor);
             }
         }
     }
 
     public void goToTop(View view){
         Intent intent = new Intent(this, TopActivity.class);
+        intent.putExtra("topColor",topColor);
+        intent.putExtra("bottomColor", bottomColor);
         startActivity(intent);
     }
 
     public void goToResult(View view){
         Intent intent = new Intent(this, ResultActivity.class);
+        intent.putExtra("topColor",topColor);
+        intent.putExtra("bottomColor", bottomColor);
         startActivity(intent);
     }
 }

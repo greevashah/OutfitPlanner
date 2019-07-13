@@ -8,14 +8,14 @@
 
     <ImageView
         android:id="@+id/bottomImageViewB"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="400dp"
+        android:layout_height="250dp"
         android:contentDescription="Image of a Pant"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/ic_pant"
-        tools:layout_editor_absoluteY="8dp" />
+        tools:layout_editor_absoluteY="32dp" />
 
     <Button
         android:id="@+id/clickTopButtonB"
@@ -26,7 +26,7 @@
         android:onClick="chooseBottom"
         android:text="CLICK BOTTOMWEAR"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/bottomImageViewB" />
 
@@ -34,12 +34,11 @@
         android:id="@+id/toTopButtonB"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="30dp"
         android:contentDescription="Click to go to previous page"
         android:onClick="goToTop"
         android:text="GO TO TOPWEAR PAGE"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toResultButtonB" />
 
@@ -47,12 +46,11 @@
         android:id="@+id/toResultButtonB"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="30dp"
         android:contentDescription="Click to go to result page"
         android:onClick="goToResult"
         android:text="GO TO RESULT PAGE"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/clickTopButtonB" />
 </android.support.constraint.ConstraintLayout>
