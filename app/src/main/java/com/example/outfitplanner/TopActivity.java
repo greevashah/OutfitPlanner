@@ -3,7 +3,6 @@ package com.example.outfitplanner;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -11,15 +10,26 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
-import org.opencv.android.Utils;
-import org.opencv.core.Mat;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -43,7 +53,6 @@ public class TopActivity extends AppCompatActivity {
             try{
                 photoFile=createImageFile();
             }catch(IOException ix){
-                //Error
                 Log.i( "Info","Error");
             }
             if(photoFile!=null){
@@ -71,7 +80,7 @@ public class TopActivity extends AppCompatActivity {
     }
 
     Bitmap imageTop;
-    String topColor;
+    String encodedImageTop, topColor, urlEncodedImageTop;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -82,25 +91,40 @@ public class TopActivity extends AppCompatActivity {
                 imageTop = BitmapFactory.decodeFile(currentPhotoPathTop);
                 ImageView iv = findViewById(R.id.topImageViewT);
                 iv.setImageBitmap(imageTop);
-                Mat mat = new Mat();
-//                Bitmap bmp32 = imageBottom.copy(Bitmap.Config.ARGB_8888, true);
-//                Utils.bitmapToMat(imageTop, mat);
-                int x = imageTop.getHeight()/2;
-                int y = imageTop.getWidth()/2;
-                int colour = imageTop.getPixel(x, y);
-                int red = Color.red(colour);
-                int blue = Color.blue(colour);
-                int green = Color.green(colour);
-                topColor = ColorUtils.getColorNameFromRgb(red, green, blue);
+                uploadImage(imageTop);
             }
         }
     }
 
-//    public void setTopImage(){
-//        Bitmap imageTop = BitmapFactory.decodeFile(currentPhotoPathTop);
-//        ImageView iv = (ImageView) findViewById(R.id.topImageViewT);
-//        iv.setImageBitmap(imageTop);
-//    }
+    public void uploadImage(Bitmap imageTop) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        imageTop.compress(Bitmap.CompressFormat.PNG, 0, baos);
+        byte[] imagedata = baos.toByteArray();
+        encodedImageTop = Base64.encodeToString(imagedata, Base64.DEFAULT);
+        try {
+            urlEncodedImageTop = URLEncoder.encode(encodedImageTop, "utf-8");
+        } catch (UnsupportedEncodingException e) { e.printStackTrace();}
+        Log.i("Url",urlEncodedImageTop);
+        JSONObject json = new JSONObject();
+        try {
+            json.put("data",urlEncodedImageTop);
+            json.put("auth","");
+        } catch (JSONException e){ e.printStackTrace();}
+        String url = "https://outfitplanner-api.herokuapp.com";
+        RequestQueue queue = Volley.newRequestQueue(TopActivity.this);
+        // Request a string response from the provided URL.
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new com.android.volley.Response.Listener<String>() {
+                    public void onResponse(String response) {
+                        topColor = response;
+                    }
+                }, new com.android.volley.Response.ErrorListener() {
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(TopActivity.this,"That didn't work, do it again.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+        queue.add(stringRequest);
+    }
 
     public void goToBottom(View view){
         Intent intent = new Intent(this, BottomActivity.class);
