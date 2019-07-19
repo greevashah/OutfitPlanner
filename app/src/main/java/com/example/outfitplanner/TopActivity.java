@@ -11,6 +11,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
+import android.util.Base64InputStream;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -32,7 +33,11 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
@@ -95,25 +100,41 @@ public class TopActivity extends AppCompatActivity {
                 imageTop = BitmapFactory.decodeFile(currentPhotoPathTop);
                 ImageView iv = findViewById(R.id.topImageViewT);
                 iv.setImageBitmap(imageTop);
-                uploadImage(imageTop);
+                String encodedString;
+                try{
+                final InputStream inStreamImage = new FileInputStream(currentPhotoPathTop);
+                byte[] bytes;
+                byte[] buffer = new byte[8192];
+                int bytesRead;
+                ByteArrayOutputStream output = new ByteArrayOutputStream();
+
+                    while ((bytesRead = inStreamImage.read(buffer)) != -1) {
+                        output.write(buffer, 0, bytesRead);
+                    }
+                    bytes = output.toByteArray();
+                    encodedString = Base64.encodeToString(bytes, Base64.DEFAULT);
+                    uploadImage(encodedString);
+                } catch (Exception e) {
+                    Log.e("File issues", "Issues in File part");
+                    e.printStackTrace();
+                }
             }
         }
     }
 
-    public void uploadImage(Bitmap imageTop) {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        imageTop.compress(Bitmap.CompressFormat.PNG, 0, baos);
-        byte[] imagedata = baos.toByteArray();
-        encodedImageTop = Base64.encodeToString(imagedata, Base64.DEFAULT);
-        try {
-            urlEncodedImageTop = URLEncoder.encode(encodedImageTop, "utf-8");
-        } catch (UnsupportedEncodingException e) { e.printStackTrace();}
-        Log.i("Url",urlEncodedImageTop);
+    public void uploadImage(String encodedImageTop) {
+//        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//        imageTop.compress(Bitmap.CompressFormat.PNG, 0, baos);
+//        byte[] imagedata = baos.toByteArray();
+//        try {
+//            urlEncodedImageTop = URLEncoder.encode(encodedImageTop, "utf-8");
+//        } catch (UnsupportedEncodingException e) { e.printStackTrace();}
+        Log.i("Url",encodedImageTop);
         JSONObject json = new JSONObject();
 
         try {
             RequestQueue requestQueue = Volley.newRequestQueue(TopActivity.this);
-            json.put("data",urlEncodedImageTop);
+            json.put("data",encodedImageTop);
             json.put("auth","");
             final String jsonString = json.toString();
             String url = "https://outfitplanner-api.herokuapp.com";
@@ -121,7 +142,7 @@ public class TopActivity extends AppCompatActivity {
             StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>(){
                 @Override
                 public void onResponse(String response){
-                    Log.i("LOG VOLLEY",response);
+                    Log.i("LOG VOLLEY","reposnse "+response);
                 }
             }, new Response.ErrorListener(){
                 @Override
@@ -149,7 +170,8 @@ public class TopActivity extends AppCompatActivity {
                     String responseString = "";
                     if (response != null) {
 
-                        responseString = String.valueOf(response.statusCode);
+                        responseString = String.valueOf(response.data);
+                        Log.i("respo",responseString);
 
                     }
                     return Response.success(responseString, HttpHeaderParser.parseCacheHeaders(response));
