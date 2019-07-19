@@ -4,24 +4,29 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.android.volley.Request;
+import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkResponse;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.HttpHeaderParser;
+import com.android.volley.toolbox.Volley;
 import com.android.volley.RequestQueue;
+import com.android.volley.Request;
+import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
+
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -68,7 +73,7 @@ public class TopActivity extends AppCompatActivity {
 
         //set the image in imageView
     }
-    private File createImageFile()throws IOException {
+    public File createImageFile()throws IOException {
         //Create file name
         String timeStamp=new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName="TOP_"+timeStamp+"_";
@@ -84,7 +89,6 @@ public class TopActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
         File imgFile=new File(currentPhotoPathTop);
         if(resultCode==RESULT_OK) {
             if(imgFile.exists()) {
@@ -106,24 +110,57 @@ public class TopActivity extends AppCompatActivity {
         } catch (UnsupportedEncodingException e) { e.printStackTrace();}
         Log.i("Url",urlEncodedImageTop);
         JSONObject json = new JSONObject();
+
         try {
+            RequestQueue requestQueue = Volley.newRequestQueue(TopActivity.this);
             json.put("data",urlEncodedImageTop);
             json.put("auth","");
+            final String jsonString = json.toString();
+            String url = "https://outfitplanner-api.herokuapp.com";
+            Log.i("Volley","starting API stuff");
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>(){
+                @Override
+                public void onResponse(String response){
+                    Log.i("LOG VOLLEY",response);
+                }
+            }, new Response.ErrorListener(){
+                @Override
+                public void onErrorResponse(VolleyError error){
+                    Log.e("LOG ERROR",error.toString());
+                }
+            }){
+                @Override
+                public String getBodyContentType() {
+                    return "application/json; charset=utf-8";
+                }
+
+                @Override
+                public byte[] getBody() throws AuthFailureError {
+                    try {
+                        return jsonString.getBytes("utf-8");
+                    } catch (UnsupportedEncodingException uee) {
+                        VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", jsonString, "utf-8");
+                        return null;
+                    }
+                }
+
+                @Override
+                protected Response<String> parseNetworkResponse(NetworkResponse response) {
+                    String responseString = "";
+                    if (response != null) {
+
+                        responseString = String.valueOf(response.statusCode);
+
+                    }
+                    return Response.success(responseString, HttpHeaderParser.parseCacheHeaders(response));
+                }
+            };
+
+            requestQueue.add(stringRequest);
+
         } catch (JSONException e){ e.printStackTrace();}
-        String url = "https://outfitplanner-api.herokuapp.com";
-        RequestQueue queue = Volley.newRequestQueue(TopActivity.this);
-        // Request a string response from the provided URL.
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-                new com.android.volley.Response.Listener<String>() {
-                    public void onResponse(String response) {
-                        topColor = response;
-                    }
-                }, new com.android.volley.Response.ErrorListener() {
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(TopActivity.this,"That didn't work, do it again.", Toast.LENGTH_SHORT).show();
-                    }
-                });
-        queue.add(stringRequest);
+
+
     }
 
     public void goToBottom(View view){
