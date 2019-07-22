@@ -46,6 +46,8 @@ import java.util.Date;
 public class TopActivity extends AppCompatActivity {
     private static final int REQUEST_TAKE_PHOTO = 1;
     public String currentPhotoPathTop=null;
+    Bitmap imageTop;
+    String topColor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,9 +90,6 @@ public class TopActivity extends AppCompatActivity {
         currentPhotoPathTop = image.getAbsolutePath();
         return image;
     }
-
-    Bitmap imageTop;
-    String encodedImageTop, topColor, urlEncodedImageTop;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -149,7 +148,7 @@ public class TopActivity extends AppCompatActivity {
                 }
 
                 @Override
-                public byte[] getBody() throws AuthFailureError {
+                public byte[] getBody() {
                     try {
                         return jsonString.getBytes("utf-8");
                     } catch (UnsupportedEncodingException uee) {
@@ -160,21 +159,15 @@ public class TopActivity extends AppCompatActivity {
 
                 @Override
                 protected Response<String> parseNetworkResponse(NetworkResponse response) {
-                    String responseString="";
                     if (response != null) {
-
-//                        responseString = String.valueOf(response.data);
-                        responseString = new String(response.data);
-                        Log.i("respo",responseString);
-
+                        topColor = new String(response.data);
+                        Log.i("respo",topColor);
                     }
-                    return Response.success(responseString, HttpHeaderParser.parseCacheHeaders(response));
+                    return Response.success(topColor, HttpHeaderParser.parseCacheHeaders(response));
                 }
             };
             requestQueue.add(stringRequest);
         } catch (JSONException e){ e.printStackTrace();}
-
-
     }
 
     public void goToBottom(View view){

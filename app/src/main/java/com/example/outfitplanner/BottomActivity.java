@@ -14,11 +14,15 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -27,7 +31,9 @@ import org.json.JSONObject;
 import org.opencv.android.OpenCVLoader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
@@ -37,6 +43,8 @@ public class BottomActivity extends AppCompatActivity {
     private static final int REQUEST_TAKE_PHOTO = 1;
     private String currentPhotoPathBottom="";
     String topColor, bottomColor;
+    Bitmap imageBottom;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,9 +88,6 @@ public class BottomActivity extends AppCompatActivity {
         return image;
     }
 
-    Bitmap imageBottom;
-    String encodedImageBottom, urlEncodedImageBottom;
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data)  {
         super.onActivityResult(requestCode, resultCode, data);
@@ -92,56 +97,82 @@ public class BottomActivity extends AppCompatActivity {
                 imageBottom = BitmapFactory.decodeFile(currentPhotoPathBottom);
                 ImageView iv = findViewById(R.id.bottomImageViewB);
                 iv.setImageBitmap(imageBottom);
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                imageBottom.compress(Bitmap.CompressFormat.PNG, 0, baos);
-                byte[] imagedata = baos.toByteArray();
-                encodedImageBottom = Base64.encodeToString(imagedata, Base64.DEFAULT);
-                try {
-                    urlEncodedImageBottom = URLEncoder.encode(encodedImageBottom, "utf-8");
-                } catch (UnsupportedEncodingException e) { e.printStackTrace();}
-                JSONObject json = new JSONObject();
-                try {
-                    json.put("data",urlEncodedImageBottom);
-                    json.put("auth","");
-                } catch (JSONException e){ e.printStackTrace();}
-                String url = "https://outfitplanner-api.herokuapp.com";
-                RequestQueue queue = Volley.newRequestQueue(BottomActivity.this);
-                // Request a string response from the provided URL.
-                StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-                        new com.android.volley.Response.Listener<String>() {
-                            public void onResponse(String response) {
-                                // Display the first 500 characters of the response string.
-                                bottomColor = response;
-                            }
-                        }, new com.android.volley.Response.ErrorListener() {
-
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(BottomActivity.this,"That didn't work, do it again.", Toast.LENGTH_SHORT).show();
+                String encodedString;
+                try{
+                    final InputStream inStreamImage = new FileInputStream(currentPhotoPathBottom);
+                    byte[] bytes;
+                    byte[] buffer = new byte[8192];
+                    int bytesRead;
+                    ByteArrayOutputStream output = new ByteArrayOutputStream();
+                    while ((bytesRead = inStreamImage.read(buffer)) != -1) {
+                        output.write(buffer, 0, bytesRead);
                     }
-                });
-
-                // Add the request to the RequestQueue.
-                queue.add(stringRequest);
-//                Mat mat = new Mat();
-//                Bitmap bmp32 = imageBottom.copy(Bitmap.Config.ARGB_8888, true);
-//                Utils.bitmapToMat(imageBottom, mat);
-//                int x = imageBottom.getHeight()/2;
-//                int y = imageBottom.getWidth()/2;
-//                int colour = imageBottom.getPixel(x, y);
-//                int red = Color.red(colour);
-//                int blue = Color.blue(colour);
-//                int green = Color.green(colour);
-//                bottomColor = ColorUtils.getColorNameFromRgb(red, green, blue);
-//                Log.i("topColor",topColor);
-//                Log.i("bottomColor",bottomColor);
+                    bytes = output.toByteArray();
+                    encodedString = Base64.encodeToString(bytes, Base64.DEFAULT);
+                    uploadImage(encodedString);
+                } catch (Exception e) {
+                    Log.e("File issues", "Issues in File part");
+                    e.printStackTrace();
+                }
             }
         }
     }
 
+    public void uploadImage(String encodedImageBottom) {
+        Log.i("Url",encodedImageBottom);
+        JSONObject json = new JSONObject();
+
+        try {
+            RequestQueue requestQueue = Volley.newRequestQueue(BottomActivity.this);
+            json.put("data",encodedImageBottom);
+            json.put("auth","");
+            final String jsonString = json.toString();
+            String url = "https://outfitplanner-api.herokuapp.com";
+            Log.i("Volley","starting API stuff");
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>(){
+                @Override
+                public void onResponse(String response){
+                    Log.i("LOG VOLLEY","reposnse "+response);
+                }
+            }, new Response.ErrorListener(){
+                @Override
+                public void onErrorResponse(VolleyError error){
+                    Log.e("LOG ERROR",error.toString());
+                }
+            }){
+                @Override
+                public String getBodyContentType() {
+                    return "application/json; charset=utf-8";
+                }
+
+                @Override
+                public byte[] getBody() throws AuthFailureError {
+                    try {
+                        return jsonString.getBytes("utf-8");
+                    } catch (UnsupportedEncodingException uee) {
+                        VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", jsonString, "utf-8");
+                        return null;
+                    }
+                }
+
+                @Override
+                protected Response<String> parseNetworkResponse(NetworkResponse response) {
+                    if (response != null) {
+//                        responseString = String.valueOf(response.data);
+                        bottomColor = new String(response.data);
+                        Log.i("respo",bottomColor);
+                    }
+                    return Response.success(bottomColor, HttpHeaderParser.parseCacheHeaders(response));
+                }
+            };
+            requestQueue.add(stringRequest);
+        } catch (JSONException e){ e.printStackTrace();}
+    }
+
     public void goToTop(View view){
         Intent intent = new Intent(this, TopActivity.class);
-        intent.putExtra("topColor",topColor);
-        intent.putExtra("bottomColor", bottomColor);
+//        intent.putExtra("topColor",topColor);
+//        intent.putExtra("bottomColor", bottomColor);
         startActivity(intent);
     }
 
