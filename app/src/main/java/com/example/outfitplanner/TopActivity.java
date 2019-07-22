@@ -102,12 +102,11 @@ public class TopActivity extends AppCompatActivity {
                 iv.setImageBitmap(imageTop);
                 String encodedString;
                 try{
-                final InputStream inStreamImage = new FileInputStream(currentPhotoPathTop);
-                byte[] bytes;
-                byte[] buffer = new byte[8192];
-                int bytesRead;
-                ByteArrayOutputStream output = new ByteArrayOutputStream();
-
+                    final InputStream inStreamImage = new FileInputStream(currentPhotoPathTop);
+                    byte[] bytes;
+                    byte[] buffer = new byte[8192];
+                    int bytesRead;
+                    ByteArrayOutputStream output = new ByteArrayOutputStream();
                     while ((bytesRead = inStreamImage.read(buffer)) != -1) {
                         output.write(buffer, 0, bytesRead);
                     }
@@ -123,12 +122,6 @@ public class TopActivity extends AppCompatActivity {
     }
 
     public void uploadImage(String encodedImageTop) {
-//        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-//        imageTop.compress(Bitmap.CompressFormat.PNG, 0, baos);
-//        byte[] imagedata = baos.toByteArray();
-//        try {
-//            urlEncodedImageTop = URLEncoder.encode(encodedImageTop, "utf-8");
-//        } catch (UnsupportedEncodingException e) { e.printStackTrace();}
         Log.i("Url",encodedImageTop);
         JSONObject json = new JSONObject();
 
@@ -167,19 +160,18 @@ public class TopActivity extends AppCompatActivity {
 
                 @Override
                 protected Response<String> parseNetworkResponse(NetworkResponse response) {
-                    String responseString = "";
+                    String responseString="";
                     if (response != null) {
 
-                        responseString = String.valueOf(response.data);
+//                        responseString = String.valueOf(response.data);
+                        responseString = new String(response.data);
                         Log.i("respo",responseString);
 
                     }
                     return Response.success(responseString, HttpHeaderParser.parseCacheHeaders(response));
                 }
             };
-
             requestQueue.add(stringRequest);
-
         } catch (JSONException e){ e.printStackTrace();}
 
 
