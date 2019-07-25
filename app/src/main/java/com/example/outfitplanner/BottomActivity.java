@@ -1,6 +1,8 @@
 package com.example.outfitplanner;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -14,6 +16,7 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
@@ -55,21 +58,24 @@ public class BottomActivity extends AppCompatActivity {
     }
 
     public void chooseBottom(View view){
-        Intent takePicture=new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if(takePicture.resolveActivity(getPackageManager())!=null){
-            File photoFile=null;
-            try{
-                photoFile=createImageFile();
-            }catch(IOException ix){
-                //Error
-                Log.i( "Info","Error");
-            }
-            if(photoFile!=null){
-                Uri photoURI= FileProvider.getUriForFile(this,"com.example.android.fileprovider",photoFile);
-//                fileName+=photoURI.toString();
-                takePicture.putExtra(MediaStore.EXTRA_OUTPUT,photoURI);
+        if(checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
+            requestPermissions(new String[]{Manifest.permission.CAMERA}, 1);
+        }else {
+            Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            if (takePicture.resolveActivity(getPackageManager()) != null) {
                 startActivityForResult(takePicture, REQUEST_TAKE_PHOTO);
             }
+                /*File photoFile = null;
+                try {
+                    photoFile = createImageFile();
+                } catch (IOException ix) {
+                    //Error
+                    Log.i("Info", "Error");
+                }
+                if (photoFile != null) {
+                    Uri photoURI = FileProvider.getUriForFile(this, "com.example.android.fileprovider", photoFile);
+//                fileName+=photoURI.toString();
+                    takePicture.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);*/
         }
         //start camera module
 
@@ -77,7 +83,8 @@ public class BottomActivity extends AppCompatActivity {
 
         //set the image in imageView
     }
-    private File createImageFile()throws IOException {
+
+    /*private File createImageFile()throws IOException {
         //Create file name
         String timeStamp=new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName="BOT_"+timeStamp+"_";
@@ -86,35 +93,29 @@ public class BottomActivity extends AppCompatActivity {
         File image=File.createTempFile(imageFileName,".jpg",storageDir);
         currentPhotoPathBottom= image.getAbsolutePath();
         return image;
-    }
+    }*/
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data)  {
-        super.onActivityResult(requestCode, resultCode, data);
-        File imgFile = new  File(currentPhotoPathBottom);
-        if(resultCode==RESULT_OK) {
-            if(imgFile.exists()) {
-                imageBottom = BitmapFactory.decodeFile(currentPhotoPathBottom);
-                ImageView iv = findViewById(R.id.bottomImageViewB);
-                iv.setImageBitmap(imageBottom);
-                String encodedString;
-                try{
-                    final InputStream inStreamImage = new FileInputStream(currentPhotoPathBottom);
-                    byte[] bytes;
-                    byte[] buffer = new byte[8192];
-                    int bytesRead;
-                    ByteArrayOutputStream output = new ByteArrayOutputStream();
-                    while ((bytesRead = inStreamImage.read(buffer)) != -1) {
-                        output.write(buffer, 0, bytesRead);
-                    }
-                    bytes = output.toByteArray();
-                    encodedString = Base64.encodeToString(bytes, Base64.DEFAULT);
-                    uploadImage(encodedString);
+//        File imgFile = new  File(currentPhotoPathBottom);
+        if(requestCode==REQUEST_TAKE_PHOTO && resultCode==RESULT_OK) {
+//            if(imgFile.exists()) {
+            Bundle extras = data.getExtras();
+            imageBottom =(Bitmap) extras.get("data");
+//                imageTop = BitmapFactory.decodeFile(currentPhotoPathTop);
+            ImageView iv = findViewById(R.id.bottomImageViewB);
+            iv.setImageBitmap(imageBottom);
+            String encodedString;
+            try{
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                imageBottom.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                byte[] bytes = baos.toByteArray();
+                encodedString = Base64.encodeToString(bytes, Base64.DEFAULT);
+                uploadImage(encodedString);
                 } catch (Exception e) {
                     Log.e("File issues", "Issues in File part");
                     e.printStackTrace();
                 }
-            }
         }
     }
 
@@ -133,6 +134,7 @@ public class BottomActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(String response){
                     Log.i("LOG VOLLEY","reposnse "+response);
+                    Toast.makeText(BottomActivity.this, "Image uploaded",Toast.LENGTH_LONG).show();
                 }
             }, new Response.ErrorListener(){
                 @Override

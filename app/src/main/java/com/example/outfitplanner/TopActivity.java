@@ -1,6 +1,8 @@
 package com.example.outfitplanner;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -15,6 +17,7 @@ import android.util.Base64InputStream;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
@@ -53,34 +56,37 @@ public class TopActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_top);
-//        if(imageTop != null){
-//            setTopImage();
-//        }
     }
 
     public void chooseTop(View view){
-        Intent takePicture=new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if(takePicture.resolveActivity(getPackageManager())!=null){
-            File photoFile=null;
-            try{
-                photoFile=createImageFile();
-            }catch(IOException ix){
-                Log.i( "Info","Error");
-            }
-            if(photoFile!=null){
-                Uri photoURI= FileProvider.getUriForFile(this,"com.example.android.fileprovider",photoFile);
-//                fileName+=photoURI.toString();
-                takePicture.putExtra(MediaStore.EXTRA_OUTPUT,photoURI);
+        if(checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
+            requestPermissions(new String[]{Manifest.permission.CAMERA}, 1);
+        }else {
+            Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            if (takePicture.resolveActivity(getPackageManager()) != null) {
                 startActivityForResult(takePicture, REQUEST_TAKE_PHOTO);
             }
         }
+                /*File photoFile = null;
+                try {
+                    photoFile = createImageFile();
+                } catch (IOException ix) {
+                    Log.i("Info", "Error");
+                }
+                if (photoFile != null) {
+                    Uri photoURI = FileProvider.getUriForFile(this, "com.example.android.fileprovider", photoFile);
+//                fileName+=photoURI.toString();
+                    takePicture.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+
+                }
+            }*/
+
         //start camera module
-
         //save the image
-
         //set the image in imageView
     }
-    public File createImageFile()throws IOException {
+
+    /*public File createImageFile()throws IOException {
         //Create file name
         String timeStamp=new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName="TOP_"+timeStamp+"_";
@@ -89,34 +95,30 @@ public class TopActivity extends AppCompatActivity {
         File image=File.createTempFile(imageFileName,".jpg",storageDir);
         currentPhotoPathTop = image.getAbsolutePath();
         return image;
-    }
+    }*/
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        File imgFile=new File(currentPhotoPathTop);
-        if(resultCode==RESULT_OK) {
-            if(imgFile.exists()) {
-                imageTop = BitmapFactory.decodeFile(currentPhotoPathTop);
+//        File imgFile=new File(currentPhotoPathTop);
+        if(requestCode==REQUEST_TAKE_PHOTO && resultCode==RESULT_OK) {
+//            if(imgFile.exists()) {
+            Bundle extras = data.getExtras();
+            imageTop =(Bitmap) extras.get("data");
+//                imageTop = BitmapFactory.decodeFile(currentPhotoPathTop);
                 ImageView iv = findViewById(R.id.topImageViewT);
                 iv.setImageBitmap(imageTop);
                 String encodedString;
                 try{
-                    final InputStream inStreamImage = new FileInputStream(currentPhotoPathTop);
-                    byte[] bytes;
-                    byte[] buffer = new byte[8192];
-                    int bytesRead;
-                    ByteArrayOutputStream output = new ByteArrayOutputStream();
-                    while ((bytesRead = inStreamImage.read(buffer)) != -1) {
-                        output.write(buffer, 0, bytesRead);
-                    }
-                    bytes = output.toByteArray();
+                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                    imageTop.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                    byte[] bytes = baos.toByteArray();
                     encodedString = Base64.encodeToString(bytes, Base64.DEFAULT);
                     uploadImage(encodedString);
                 } catch (Exception e) {
                     Log.e("File issues", "Issues in File part");
                     e.printStackTrace();
                 }
-            }
+
         }
     }
 
@@ -135,6 +137,7 @@ public class TopActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(String response){
                     Log.i("LOG VOLLEY","reposnse "+response);
+                    Toast.makeText(TopActivity.this, "Image uploaded",Toast.LENGTH_LONG).show();
                 }
             }, new Response.ErrorListener(){
                 @Override
