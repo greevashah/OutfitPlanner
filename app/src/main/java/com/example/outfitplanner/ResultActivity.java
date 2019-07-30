@@ -1,6 +1,7 @@
 package com.example.outfitplanner;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -16,7 +17,9 @@ public class ResultActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String topColor = intent.getStringExtra("topColor");
         String bottomColor = intent.getStringExtra("bottomColor");
-        String result = "Top: " + topColor + "\n" + "Bottom: " + bottomColor;
+        ColorDictionary cd = new ColorDictionary();
+        String verdict = cd.GetResult(topColor, bottomColor);
+        String result = "Topwear: " + topColor + "\nBottomwear: " + bottomColor+"\nVerdict: "+verdict;
         tv.setText(result);
     }
 
