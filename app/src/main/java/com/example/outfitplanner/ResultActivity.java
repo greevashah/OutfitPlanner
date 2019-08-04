@@ -9,14 +9,19 @@ import android.widget.TextView;
 
 public class ResultActivity extends AppCompatActivity {
 
+    String topColor, bottomColor;
+    byte[] topByte, bottomByte;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result);
         TextView tv = findViewById(R.id.resultViewR);
         Intent intent = getIntent();
-        String topColor = intent.getStringExtra("topColor");
-        String bottomColor = intent.getStringExtra("bottomColor");
+        topColor = intent.getStringExtra("topColor");
+        bottomColor = intent.getStringExtra("bottomColor");
+        topByte = intent.getByteArrayExtra("topByte");
+        bottomByte = intent.getByteArrayExtra("bottomByte");
         ColorDictionary cd = new ColorDictionary();
         String verdict = cd.GetResult(topColor, bottomColor);
         String result = "Topwear: " + topColor + "\nBottomwear: " + bottomColor+"\nVerdict: "+verdict;
@@ -25,11 +30,19 @@ public class ResultActivity extends AppCompatActivity {
 
     public void goToBottom(View view){
         Intent intent = new Intent(this, BottomActivity.class);
+        intent.putExtra("topColor", topColor);
+        intent.putExtra("bottomColor", bottomColor);
+        intent.putExtra("topByte", topByte);
+        intent.putExtra("bottomByte", bottomByte);
         startActivity(intent);
     }
 
     public void goToMain(View view){
         Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra("topColor", topColor);
+        intent.putExtra("bottomColor", bottomColor);
+        intent.putExtra("topByte", topByte);
+        intent.putExtra("bottomByte", bottomByte);
         startActivity(intent);
     }
 

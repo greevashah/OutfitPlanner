@@ -45,8 +45,9 @@ import java.util.Date;
 public class BottomActivity extends AppCompatActivity {
     private static final int REQUEST_TAKE_PHOTO = 1;
     private String currentPhotoPathBottom="";
-    String topColor, bottomColor;
     Bitmap imageBottom;
+    String topColor, bottomColor;
+    byte[] topByte, bottomByte;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +56,15 @@ public class BottomActivity extends AppCompatActivity {
         setContentView(R.layout.activity_bottom);
         Intent intent = getIntent();
         topColor = intent.getStringExtra("topColor");
+        bottomColor = intent.getStringExtra("bottomColor");
+        topByte = intent.getByteArrayExtra("topByte");
+        bottomByte = intent.getByteArrayExtra("bottomByte");
+
+        if(bottomByte!=null){
+            imageBottom = BitmapFactory.decodeByteArray(bottomByte, 0, bottomByte.length);
+            ImageView iv = findViewById(R.id.bottomImageViewB);
+            iv.setImageBitmap(imageBottom);
+        }
     }
 
     public void chooseBottom(View view){
@@ -65,23 +75,7 @@ public class BottomActivity extends AppCompatActivity {
             if (takePicture.resolveActivity(getPackageManager()) != null) {
                 startActivityForResult(takePicture, REQUEST_TAKE_PHOTO);
             }
-                /*File photoFile = null;
-                try {
-                    photoFile = createImageFile();
-                } catch (IOException ix) {
-                    //Error
-                    Log.i("Info", "Error");
-                }
-                if (photoFile != null) {
-                    Uri photoURI = FileProvider.getUriForFile(this, "com.example.android.fileprovider", photoFile);
-//                fileName+=photoURI.toString();
-                    takePicture.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);*/
         }
-        //start camera module
-
-        //save the image
-
-        //set the image in imageView
     }
 
     /*private File createImageFile()throws IOException {
@@ -109,8 +103,8 @@ public class BottomActivity extends AppCompatActivity {
             try{
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 imageBottom.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-                byte[] bytes = baos.toByteArray();
-                encodedString = Base64.encodeToString(bytes, Base64.DEFAULT);
+                bottomByte = baos.toByteArray();
+                encodedString = Base64.encodeToString(bottomByte, Base64.DEFAULT);
                 uploadImage(encodedString);
                 } catch (Exception e) {
                     Log.e("File issues", "Issues in File part");
@@ -173,15 +167,19 @@ public class BottomActivity extends AppCompatActivity {
 
     public void goToTop(View view){
         Intent intent = new Intent(this, TopActivity.class);
-//        intent.putExtra("topColor",topColor);
-//        intent.putExtra("bottomColor", bottomColor);
+        intent.putExtra("topColor", topColor);
+        intent.putExtra("bottomColor", bottomColor);
+        intent.putExtra("topByte", topByte);
+        intent.putExtra("bottomByte", bottomByte);
         startActivity(intent);
     }
 
     public void goToResult(View view){
         Intent intent = new Intent(this, ResultActivity.class);
-        intent.putExtra("topColor",topColor);
+        intent.putExtra("topColor", topColor);
         intent.putExtra("bottomColor", bottomColor);
+        intent.putExtra("topByte", topByte);
+        intent.putExtra("bottomByte", bottomByte);
         startActivity(intent);
     }
 }
