@@ -48,7 +48,6 @@ import java.util.Date;
 
 public class TopActivity extends AppCompatActivity {
     private static final int REQUEST_TAKE_PHOTO = 1;
-    public String currentPhotoPathTop=null;
     Bitmap imageTop;
     String topColor, bottomColor;
     byte[] topByte, bottomByte;
@@ -98,21 +97,19 @@ public class TopActivity extends AppCompatActivity {
 //            if(imgFile.exists()) {
             Bundle extras = data.getExtras();
             imageTop =(Bitmap) extras.get("data");
-//                imageTop = BitmapFactory.decodeFile(currentPhotoPathTop);
-                ImageView iv = findViewById(R.id.topImageViewT);
-                iv.setImageBitmap(imageTop);
-                String encodedString;
-                try{
-                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                    imageTop.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-                    topByte = baos.toByteArray();
-                    encodedString = Base64.encodeToString(topByte, Base64.DEFAULT);
-                    uploadImage(encodedString);
-                } catch (Exception e) {
-                    Log.e("File issues", "Issues in File part");
-                    e.printStackTrace();
-                }
-
+            ImageView iv = findViewById(R.id.topImageViewT);
+            iv.setImageBitmap(imageTop);
+            String encodedString;
+            try{
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                imageTop.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                topByte = baos.toByteArray();
+                encodedString = Base64.encodeToString(topByte, Base64.DEFAULT);
+                uploadImage(encodedString);
+            } catch (Exception e) {
+                Log.e("File issues", "Issues in File part");
+                e.printStackTrace();
+            }
         }
     }
 
