@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -97,6 +98,9 @@ public class TopActivity extends AppCompatActivity {
 //            if(imgFile.exists()) {
             Bundle extras = data.getExtras();
             imageTop =(Bitmap) extras.get("data");
+            Matrix matrix = new Matrix();
+            matrix.postRotate(90);
+            imageTop = Bitmap.createBitmap(imageTop, 0, 0, imageTop.getWidth(), imageTop.getHeight(), matrix, true);
             ImageView iv = findViewById(R.id.topImageViewT);
             iv.setImageBitmap(imageTop);
             String encodedString;
