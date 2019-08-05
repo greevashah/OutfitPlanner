@@ -15,18 +15,18 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/ic_shirt"
-        tools:layout_editor_absoluteY="32dp" />
+        android:layout_marginTop="20dp" />
 
     <Button
         android:id="@+id/clickTopButtonT"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="56dp"
         android:contentDescription="Click picture of your top(shirt,dress,et cetra)"
         android:onClick="chooseTop"
         android:text="CLICK TOPWEAR"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/topImageViewT" />
 
@@ -37,7 +37,7 @@
         android:layout_marginTop="30dp"
         android:contentDescription="Click to go to next page"
         android:onClick="goToBottom"
-        android:text="GO TO BOTTOMWEAR PAGE"
+        android:text="BOTTOMWEAR"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/clickTopButtonT" />
@@ -49,7 +49,7 @@
         android:layout_marginTop="30dp"
         android:contentDescription="Click to go back to home page"
         android:onClick="goToMain"
-        android:text="GO BACK TO HOME PAGE"
+        android:text="HOME"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toBottomButtonT" />

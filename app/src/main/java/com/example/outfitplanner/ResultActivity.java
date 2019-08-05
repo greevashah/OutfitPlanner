@@ -25,13 +25,13 @@ public class ResultActivity extends AppCompatActivity {
         ColorDictionary cd = new ColorDictionary();
         String verdict = cd.GetResult(topColor, bottomColor);
         if(topColor!=null && bottomColor!=null)
-            result = "Topwear: " + topColor + "\nBottomwear: " + bottomColor + "\nVerdict: " + verdict;
+            result = "Topwear: " + topColor + "\n\nBottomwear: " + bottomColor + "\n\nVerdict: " + verdict;
         else if(topColor==null && bottomColor!=null)
-            result = "Topwear: Please capture top again\nBottomwear: " + bottomColor;
+            result = "Topwear: Please capture top again\n\nBottomwear: " + bottomColor;
         else if(bottomColor==null && topColor!=null)
-            result = "Topwear: " + topColor + "\nBottomwear: Please capture top again";
+            result = "Topwear: " + topColor + "\n\nBottomwear: Please capture top again";
         else
-            result = "Please capture images of clothes";
+            result = "Please try again.";
         tv.setText(result);
     }
 
