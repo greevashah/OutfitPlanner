@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 public class ResultActivity extends AppCompatActivity {
 
-    String topColor, bottomColor;
+    String topColor, bottomColor, result;
     byte[] topByte, bottomByte;
 
     @Override
@@ -24,11 +24,19 @@ public class ResultActivity extends AppCompatActivity {
         bottomByte = intent.getByteArrayExtra("bottomByte");
         ColorDictionary cd = new ColorDictionary();
         String verdict = cd.GetResult(topColor, bottomColor);
-        String result = "Topwear: " + topColor + "\nBottomwear: " + bottomColor+"\nVerdict: "+verdict;
+        if(topColor!=null && bottomColor!=null)
+            result = "Topwear: " + topColor + "\nBottomwear: " + bottomColor + "\nVerdict: " + verdict;
+        else if(topColor==null && bottomColor!=null)
+            result = "Topwear: Please capture top again\nBottomwear: " + bottomColor;
+        else if(bottomColor==null && topColor!=null)
+            result = "Topwear: " + topColor + "\nBottomwear: Please capture top again";
+        else
+            result = "Please capture images of clothes";
         tv.setText(result);
     }
 
     public void goToBottom(View view){
+        finish();
         Intent intent = new Intent(this, BottomActivity.class);
         intent.putExtra("topColor", topColor);
         intent.putExtra("bottomColor", bottomColor);
@@ -38,16 +46,19 @@ public class ResultActivity extends AppCompatActivity {
     }
 
     public void goToMain(View view){
+        finish();
         Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(this, BottomActivity.class);
         intent.putExtra("topColor", topColor);
         intent.putExtra("bottomColor", bottomColor);
         intent.putExtra("topByte", topByte);
         intent.putExtra("bottomByte", bottomByte);
         startActivity(intent);
-    }
-
-    public void exitMain(View view){
-        finish();
-        System.exit(0);
     }
 }

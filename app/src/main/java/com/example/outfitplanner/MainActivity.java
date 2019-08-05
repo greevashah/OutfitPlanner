@@ -1,5 +1,7 @@
 package com.example.outfitplanner;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,24 +19,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         OpenCVLoader.initDebug();
         setContentView(R.layout.activity_main);
-        Intent intent = getIntent();
-        topColor = intent.getStringExtra("topColor");
-        bottomColor = intent.getStringExtra("bottomColor");
-        topByte = intent.getByteArrayExtra("topByte");
-        bottomByte = intent.getByteArrayExtra("bottomByte");
     }
 
     public void goToTop(View view){
+        finish();
         Intent intent = new Intent(this, TopActivity.class);
-        intent.putExtra("topColor", topColor);
-        intent.putExtra("bottomColor", bottomColor);
-        intent.putExtra("topByte", topByte);
-        intent.putExtra("bottomByte", bottomByte);
         startActivity(intent);
     }
 
     public void exitMain(View view){
         finish();
-        System.exit(0);
     }
 }

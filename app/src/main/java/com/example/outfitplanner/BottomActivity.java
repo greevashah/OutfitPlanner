@@ -169,6 +169,7 @@ public class BottomActivity extends AppCompatActivity {
     }
 
     public void goToTop(View view){
+        finish();
         Intent intent = new Intent(this, TopActivity.class);
         intent.putExtra("topColor", topColor);
         intent.putExtra("bottomColor", bottomColor);
@@ -178,7 +179,19 @@ public class BottomActivity extends AppCompatActivity {
     }
 
     public void goToResult(View view){
+        finish();
         Intent intent = new Intent(this, ResultActivity.class);
+        intent.putExtra("topColor", topColor);
+        intent.putExtra("bottomColor", bottomColor);
+        intent.putExtra("topByte", topByte);
+        intent.putExtra("bottomByte", bottomByte);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(this, TopActivity.class);
         intent.putExtra("topColor", topColor);
         intent.putExtra("bottomColor", bottomColor);
         intent.putExtra("topByte", topByte);
