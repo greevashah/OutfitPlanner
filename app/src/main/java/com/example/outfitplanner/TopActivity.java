@@ -109,6 +109,7 @@ public class TopActivity extends AppCompatActivity {
                 imageTop.compress(Bitmap.CompressFormat.JPEG, 100, baos);
                 topByte = baos.toByteArray();
                 encodedString = Base64.encodeToString(topByte, Base64.DEFAULT);
+                Toast.makeText(TopActivity.this, "Wait for the image to upload", Toast.LENGTH_LONG);
                 uploadImage(encodedString);
             } catch (Exception e) {
                 Log.e("File issues", "Issues in File part");

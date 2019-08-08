@@ -20,7 +20,7 @@
 
     <Button
         android:id="@+id/toBottomButtonR"
-        android:layout_width="0dp"
+        android:layout_width="175dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="72dp"
         android:onClick="goToBottom"
@@ -28,18 +28,22 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/resultViewR" />
+        app:layout_constraintTop_toBottomOf="@+id/resultViewR"
+        android:textColor="#FFFFFF"
+        android:background="@drawable/buttonshape" />
 
     <Button
         android:id="@+id/toMainButtonR"
-        android:layout_width="0dp"
+        android:layout_width="175dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:onClick="goToMain"
         android:text="HOME"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toBottomButtonR" />
+        app:layout_constraintTop_toBottomOf="@+id/toBottomButtonR"
+        android:textColor="#FFFFFF"
+        android:background="@drawable/buttonshape" />
 
 
 </android.support.constraint.ConstraintLayout>
