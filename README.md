@@ -6,3 +6,5 @@
 - [@Aniket Patil](https://github.com/aniketp319)
 - [@Greeva Shah](https://github.com/greevashah)
 - [@Raj Vora](https://github.com/raj-vora)
+
+##### Download the APK [HERE](https://drive.google.com/file/d/1cIF6FX2yS-XmD-lMynPyc0IMGUP6-7zv/view?usp=sharing)
