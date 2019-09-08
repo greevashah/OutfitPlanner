@@ -17,6 +17,7 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -130,6 +131,9 @@ public class BottomActivity extends AppCompatActivity {
                 public void onResponse(String response){
                     Log.i("LOG VOLLEY","reposnse "+response);
                     Toast.makeText(BottomActivity.this, "Image uploaded",Toast.LENGTH_LONG).show();
+                    TextView tv = findViewById(R.id.colorTextViewB);
+                    String result = "Bottom color: "+response;
+                    tv.setText(result);
                 }
             }, new Response.ErrorListener(){
                 @Override

@@ -6,21 +6,17 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
-import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
-import android.util.Base64InputStream;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.HttpHeaderParser;
@@ -36,16 +32,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class TopActivity extends AppCompatActivity {
     private static final int REQUEST_TAKE_PHOTO = 1;
@@ -134,6 +121,9 @@ public class TopActivity extends AppCompatActivity {
                 public void onResponse(String response){
                     Log.i("LOG VOLLEY","reposnse "+response);
                     Toast.makeText(TopActivity.this, "Image uploaded",Toast.LENGTH_LONG).show();
+                    TextView tv = findViewById(R.id.colorTextViewB);
+                    String result = "Top color: "+response;
+                    tv.setText(result);
                 }
             }, new Response.ErrorListener(){
                 @Override

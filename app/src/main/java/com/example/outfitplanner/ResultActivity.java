@@ -25,7 +25,7 @@ public class ResultActivity extends AppCompatActivity {
         ColorDictionary cd = new ColorDictionary();
         String verdict = cd.GetResult(topColor, bottomColor);
         if(topColor!=null && bottomColor!=null)
-            result = "Topwear: " + topColor + "\n\nBottomwear: " + bottomColor + "\n\nVerdict: " + verdict;
+            result = "Topwear: " + topColor + "\n\nBottomwear: " + bottomColor + "\n\nSuggestion:" + verdict;
         else if(topColor==null && bottomColor!=null)
             result = "Topwear: Please capture top again\n\nBottomwear: " + bottomColor;
         else if(bottomColor==null && topColor!=null)

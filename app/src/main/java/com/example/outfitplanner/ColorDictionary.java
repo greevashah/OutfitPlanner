@@ -17,9 +17,9 @@ class ColorDictionary {
               || ((contains(primary, topColor) || contains(secondary, topColor)) && contains(tertiary, bottomColor))
               || ((contains(primary, bottomColor) || contains(secondary, bottomColor)) && contains(tertiary, topColor))
               ){
-          verdict = "The colors match beautifully, you can wear this combination.";
+          verdict = "The colors match. You can wear this outfit.";
       }else{
-          verdict = "The colors don't compliment each other, please try another pair!";
+          verdict = "The colors don't complement each other. Please try another pair!";
       }
 
      return verdict;
