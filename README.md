@@ -7,4 +7,4 @@
 - [@Greeva Shah](https://github.com/greevashah)
 - [@Raj Vora](https://github.com/raj-vora)
 
-##### Download the APK [HERE](https://drive.google.com/file/d/1cIF6FX2yS-XmD-lMynPyc0IMGUP6-7zv/view?usp=sharing)
+##### Download the APK [HERE](https://drive.google.com/open?id=1bYrZuFSWBl0lN1Km4prO9nU1zDwvXTrR)
