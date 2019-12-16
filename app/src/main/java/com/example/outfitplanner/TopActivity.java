@@ -49,10 +49,18 @@ public class TopActivity extends AppCompatActivity {
         bottomColor = intent.getStringExtra("bottomColor");
         topByte = intent.getByteArrayExtra("topByte");
         bottomByte = intent.getByteArrayExtra("bottomByte");
+        TextView tv = findViewById(R.id.colorTextViewT);
         if(topByte!=null) {
             imageTop = BitmapFactory.decodeByteArray(topByte, 0, topByte.length);
             ImageView iv = findViewById(R.id.topImageViewT);
             iv.setImageBitmap(imageTop);
+        }
+        if(topColor!=null){
+            String result = "Top Color: "+topColor;
+            tv.setText(result);
+        }
+        else{
+            tv.setText("Top Apparel");
         }
     }
 
@@ -121,7 +129,7 @@ public class TopActivity extends AppCompatActivity {
                 public void onResponse(String response){
                     Log.i("LOG VOLLEY","reposnse "+response);
                     Toast.makeText(TopActivity.this, "Image uploaded",Toast.LENGTH_LONG).show();
-                    TextView tv = findViewById(R.id.colorTextViewB);
+                    TextView tv = findViewById(R.id.colorTextViewT);
                     String result = "Top color: "+response;
                     tv.setText(result);
                 }
@@ -129,6 +137,7 @@ public class TopActivity extends AppCompatActivity {
                 @Override
                 public void onErrorResponse(VolleyError error){
                     Log.e("LOG ERROR",error.toString());
+                    Toast.makeText(TopActivity.this, "Capture Image Again",Toast.LENGTH_LONG).show();
                 }
             }){
                 @Override

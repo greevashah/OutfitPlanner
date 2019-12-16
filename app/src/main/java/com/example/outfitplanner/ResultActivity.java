@@ -1,7 +1,6 @@
 package com.example.outfitplanner;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -33,6 +32,16 @@ public class ResultActivity extends AppCompatActivity {
         else
             result = "Please try again.";
         tv.setText(result);
+    }
+
+    public void goToTop(View view){
+        finish();
+        Intent intent = new Intent(this, TopActivity.class);
+        intent.putExtra("topColor", topColor);
+        intent.putExtra("bottomColor", bottomColor);
+        intent.putExtra("topByte", topByte);
+        intent.putExtra("bottomByte", bottomByte);
+        startActivity(intent);
     }
 
     public void goToBottom(View view){

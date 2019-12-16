@@ -59,11 +59,18 @@ public class BottomActivity extends AppCompatActivity {
         bottomColor = intent.getStringExtra("bottomColor");
         topByte = intent.getByteArrayExtra("topByte");
         bottomByte = intent.getByteArrayExtra("bottomByte");
-
+        TextView tv = findViewById(R.id.colorTextViewB);
         if(bottomByte!=null){
             imageBottom = BitmapFactory.decodeByteArray(bottomByte, 0, bottomByte.length);
             ImageView iv = findViewById(R.id.bottomImageViewB);
             iv.setImageBitmap(imageBottom);
+        }
+        if(bottomColor!=null){
+            String result = "Bottom color: "+bottomColor;
+            tv.setText(result);
+        }
+        else{
+            tv.setText("Bottom Apparel");
         }
     }
 
@@ -139,6 +146,7 @@ public class BottomActivity extends AppCompatActivity {
                 @Override
                 public void onErrorResponse(VolleyError error){
                     Log.e("LOG ERROR",error.toString());
+                    Toast.makeText(BottomActivity.this, "Capture Image Again",Toast.LENGTH_LONG).show();
                 }
             }){
                 @Override

@@ -19,18 +19,35 @@
         tools:text="Result will be displayed here" />
 
     <Button
-        android:id="@+id/toBottomButtonR"
-        android:layout_width="175dp"
+        android:id="@+id/toTopButtonR"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="72dp"
-        android:onClick="goToBottom"
-        android:text="BOTTOMWEAR"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:onClick="goToTop"
+        android:text="TOPWEAR"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/resultViewR"
         android:textColor="#FFFFFF"
         android:background="@drawable/buttonshape" />
+
+    <Button
+        android:id="@+id/toBottomButtonR"
+        android:layout_width="175dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/buttonshape"
+        android:onClick="goToBottom"
+        android:text="BOTTOMWEAR"
+        android:textColor="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toTopButtonR" />
 
     <Button
         android:id="@+id/toMainButtonR"
@@ -44,6 +61,5 @@
         app:layout_constraintTop_toBottomOf="@+id/toBottomButtonR"
         android:textColor="#FFFFFF"
         android:background="@drawable/buttonshape" />
-
 
 </android.support.constraint.ConstraintLayout>
