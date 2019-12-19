@@ -16,21 +16,17 @@
 
 ### Features
 
-- Light weight application
-less than 3MB
-- Minimal UI
-No confusion in flow and usage
-- Fast response
-As image is kept in bitmap format so API responds within a second
-- PWD friendly - Using inbuilt Text to Speech
-The application is also made accessible to blind people. All the elements of the app have been properly labelled and can be read out by using the TalkBack feature of the android smartphone. By making use of UI automator viewer and other inputs the colour contrast and other features were improved to ease the access of application to colourblind people.
+- Light weight application - less than 3MB
+- Minimal UI - No confusion in flow and usage
+- Fast response - As image is kept in bitmap format so API responds within a second
+- PWD friendly - The application is also made accessible to blind people. All the elements of the app have been properly labelled and can be read out by using the TalkBack feature of the android smartphone. By making use of UI automator viewer and other inputs the colour contrast and other features were improved to ease the access of application to colourblind people.
 - Only camera permission required
 
 ------------------------------------------
 
 <div align="center">
 
-<h3> Outfit Planner </h3>
+<h2> Outfit Planner </h2>
 <br>
 <p align = "center">
 <img src="./Images/Screenshot_Top1.png" height="350px">
