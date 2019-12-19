@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="" rel="noopener">
+  <a href="https://github.com/raj-vora/OutfitPlanner" rel="noopener">
  <img width=300px src="./Images/logo.png" alt="Outfit-Planner-Logo"></a>
 </p>
 
@@ -9,11 +9,13 @@
 
 <div align="center">
 
-<p align="middle"><img src="https://img.shields.io/badge/Work-In%20Progress-Green.svg">
+<img src="https://img.shields.io/badge/Work-In%20Progress-Green.svg">
 ![GitHub](https://img.shields.io/github/license/mashape/apistatus.svg?style=for-the-badge)
 ![Open Source Love](https://badges.frapsoft.com/os/v1/open-source-175x29.png?v=103)
 
 </div>
+
+------------------------------------------
 
 <div align="center">
 
