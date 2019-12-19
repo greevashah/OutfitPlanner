@@ -7,13 +7,13 @@
 <h3> Outfit Planner </h3>
 <br>
 <p align = "center">
-<img src="./Images/Screenshot_Top1.png">
-<img src="./Images/Screenshot_Top2.png">
-<img src="./Images/Screenshot_Top3.png">
-<img src="./Images/Screenshot_Bottom1.png">
-<img src="./Images/Screenshot_Bottom2.png">
-<img src="./Images/Screenshot_Bottom3.png">
-<img src="./Images/Screenshot_Verdict.png">
+<img src="./Images/Screenshot_Top1.png" height="350px">
+<img src="./Images/Screenshot_Top2.png" height="350px">
+<img src="./Images/Screenshot_Top3.png" height="350px">
+<img src="./Images/Screenshot_Bottom1.png" height="350px">
+<img src="./Images/Screenshot_Bottom2.png" height="350px">
+<img src="./Images/Screenshot_Bottom3.png" height="350px">
+<img src="./Images/Screenshot_Verdict.png" height="350px">
 </p>
 </div>
 
