@@ -10,10 +10,20 @@
 <div align="center">
 
 ![Work In Progress](https://img.shields.io/badge/Work-In%20Progress-Green.svg)
-![GitHub](https://img.shields.io/github/license/mashape/apistatus.svg?style=for-the-badge)
-![Open Source Love](https://badges.frapsoft.com/os/v1/open-source-175x29.png?v=103)
 
 </div>
+------------------------------------------
+### Features
+
+- Light weight application
+less than 3MB
+- Minimal UI
+No confusion in flow and usage
+- Fast response
+As image is kept in bitmap format so API responds within a second
+- PWD friendly - Using inbuilt Text to Speech
+The application is also made accessible to blind people. All the elements of the app have been properly labelled and can be read out by using the TalkBack feature of the android smartphone. By making use of UI automator viewer and other inputs the colour contrast and other features were improved to ease the access of application to colourblind people.
+- Only camera permission required
 
 ------------------------------------------
 
