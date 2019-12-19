@@ -11,9 +11,11 @@
 <img src="./Images/Screenshot_Top2.png" height="350px">
 <img src="./Images/Screenshot_Top3.png" height="350px">
 <br>
+<br>
 <img src="./Images/Screenshot_Bottom1.png" height="350px">
 <img src="./Images/Screenshot_Bottom2.png" height="350px">
 <img src="./Images/Screenshot_Bottom3.png" height="350px">
+<br>
 <br>
 <img src="./Images/Screenshot_Verdict.png" height="350px">
 </p>
