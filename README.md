@@ -48,4 +48,4 @@
 - [@Greeva Shah](https://github.com/greevashah)
 - [@Raj Vora](https://github.com/raj-vora)
 
-##### Download the APK [HERE](https://drive.google.com/open?id=1bYrZuFSWBl0lN1Km4prO9nU1zDwvXTrR)
+##### Download the APK [HERE](http://drive.google.com/uc?export=download&id=1bYrZuFSWBl0lN1Km4prO9nU1zDwvXTrR)
