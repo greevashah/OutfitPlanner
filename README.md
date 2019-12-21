@@ -10,9 +10,9 @@
 
 ![Work In Progress](https://img.shields.io/badge/Work-In%20Progress-Green.svg)
 
-
-</div>
 ------------------------------------------
+</div>
+
 ### Features
 
 - Light weight application - less than 3MB
