@@ -1,19 +1,18 @@
 <p align="center">
   <a href="https://github.com/raj-vora/OutfitPlanner" rel="noopener">
- <img width=300px src="./Images/logo.png" alt="Outfit-Planner-Logo"></a>
+  <img width=300px src="./Images/logo.png" alt="Outfit-Planner-Logo"></a>
 </p>
 
 <h1 align='middle'>Outfit Planner</h1>
 <p align='middle' /> Android application to assist blind/colorblind people in choosing their attire
 
-
 <div align="center">
 
 ![Work In Progress](https://img.shields.io/badge/Work-In%20Progress-Green.svg)
 
-------------------------------------------
-</div>
 
+</div>
+------------------------------------------
 ### Features
 
 - Light weight application - less than 3MB
