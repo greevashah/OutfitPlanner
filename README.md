@@ -40,8 +40,9 @@
 <br>
 <img src="./Images/Screenshot_Verdict.png" height="350px">
 </p>
-------------------------------------------
 </div>
+
+------------------------------------------
 
 #### Contributors:
 - [@Aniket Patil](https://github.com/aniketp319)
